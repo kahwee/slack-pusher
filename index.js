@@ -44,9 +44,9 @@ postNow({
     {
       'fallback': 'Required plain-text summary of the attachment.',
       'color': '#36a64f',
-      'author_name': `${process.env.CI_PROJECT_PATH} Job #${process.env.CI_JOB_ID}`,
+      'author_name': `Job #${process.env.CI_JOB_ID}`,
       'author_link': `${process.env.CI_PROJECT_URL}/builds/${process.env.CI_JOB_ID}`,
-      'author_icon': 'http://flickr.com/icons/bobby.jpg',
+      'author_icon': process.env.SLACK_AUTHOR_ICON,
       'title': `${process.env.CI_PROJECT_PATH} (${process.env.CI_ENVIRONMENT_SLUG})`,
       'title_link': process.env.CI_PROJECT_URL,
       'fields': [
@@ -61,8 +61,8 @@ postNow({
           'short': false
         }
       ],
-      'image_url': 'http://my-website.com/path/to/image.jpg',
-      'thumb_url': 'http://example.com/path/to/thumb.png',
+      'image_url': process.env.SLACK_IMAGE_URL,
+      'thumb_url': process.env.SLACK_THUMB_URL,
       'footer': `${pkg.name} v${pkg.version}`,
       'footer_icon': 'https://platform.slack-edge.com/img/default_application_icon.png'
 
