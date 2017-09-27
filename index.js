@@ -40,7 +40,7 @@ function postNow (data = {}) {
   }
   if (args.instructions) {
     data.attachments[0].fields.push({
-      'title': 'Deployed to',
+      'title': 'Instructions',
       'value': args.instructions,
       'short': false
     })
