@@ -23,6 +23,21 @@ params.forEach((param) => {
 })
 
 function postNow (data = {}) {
+  // Only add Deploy to field where necessary.
+  if (args.url1) {
+    let deployedTo = `<${args.url1}|${args.name1}> `
+    if (args.url2) {
+      deployedTo += `<${args.url2}|${args.name2}> `
+    }
+    if (args.url3) {
+      deployedTo += `<${args.url3}|${args.name3}> `
+    }
+    data.attachments.fields[1] = {
+      'title': 'Deployed to',
+      'value': deployedTo,
+      'short': true
+    }
+  }
   console.log(data)
   const stringified = JSON.stringify(data)
   requestOpts.headers['Content-Length'] = Buffer.byteLength(stringified)
@@ -33,38 +48,33 @@ function postNow (data = {}) {
     })
   })
   req.on('error', (err) => {
-    console.log(err, 3)
+    console.error(err, 3)
   })
   req.end(stringified)
 }
 
 postNow({
   channel: process.env.SLACK_CHANNEL,
-  'attachments': [
+  attachments: [
     {
-      'fallback': 'Required plain-text summary of the attachment.',
+      fallback: 'Required plain-text summary of the attachment.',
       'color': '#36a64f',
       'author_name': `Job #${process.env.CI_JOB_ID}`,
       'author_link': `${process.env.CI_PROJECT_URL}/builds/${process.env.CI_JOB_ID}`,
       'author_icon': process.env.SLACK_AUTHOR_ICON,
-      'title': `${process.env.CI_PROJECT_PATH} (${process.env.CI_ENVIRONMENT_SLUG})`,
+      title: `${process.env.CI_PROJECT_PATH} (${process.env.CI_ENVIRONMENT_SLUG})`,
       'title_link': process.env.CI_PROJECT_URL,
       'fields': [
         {
-          'title': 'Triggered by',
+          title: 'Triggered by',
           'value': `${process.env.GITLAB_USER_EMAIL}`,
-          'short': false
-        },
-        {
-          'title': 'Deployed to',
-          'value': `<${args.url1}|${args.name1}>`,
-          'short': false
+          'short': true
         }
       ],
       'image_url': process.env.SLACK_IMAGE_URL,
       'thumb_url': process.env.SLACK_THUMB_URL,
       'footer': `${pkg.name} v${pkg.version}`,
-      'footer_icon': 'https://platform.slack-edge.com/img/default_application_icon.png'
+      'footer_icon': process.env.SLACK_FOOTER_ICON || 'https://platform.slack-edge.com/img/default_application_icon.png'
 
     }
   ]
