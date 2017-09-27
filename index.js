@@ -32,11 +32,18 @@ function postNow (data = {}) {
     if (args.url3) {
       deployedTo += `\n<${args.url3}|${args.name3}> `
     }
-    data.attachments[0].fields[1] = {
+    data.attachments[0].fields.push({
       'title': 'Deployed to',
       'value': deployedTo,
       'short': true
-    }
+    })
+  }
+  if (args.instructions) {
+    data.attachments[0].fields.push({
+      'title': 'Deployed to',
+      'value': args.instructions,
+      'short': false
+    })
   }
   console.log(data)
   const stringified = JSON.stringify(data)
