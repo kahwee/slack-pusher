@@ -32,7 +32,7 @@ function postNow (data = {}) {
     if (args.url3) {
       deployedTo += `<${args.url3}|${args.name3}> `
     }
-    data.attachments.fields[1] = {
+    data.attachments[0].fields[1] = {
       'title': 'Deployed to',
       'value': deployedTo,
       'short': true
