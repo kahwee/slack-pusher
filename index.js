@@ -16,8 +16,6 @@ const requestOpts = {
   }
 }
 let [a, b, ...params] = process.argv
-console.log(process.env)
-exit()
 let args = {}
 params.forEach((param) => {
   const pos = param.indexOf('=')
@@ -49,7 +47,7 @@ postNow({
       'author_name': `${process.env.CI_PROJECT_PATH} Job #${process.env.CI_JOB_ID}`,
       'author_link': `${process.env.CI_PROJECT_URL}/builds/${process.env.CI_JOB_ID}`,
       'author_icon': 'http://flickr.com/icons/bobby.jpg',
-      'title': `${process.env.CI_PROJECT_PATH} (${process.env.CI_JOB_STAGE})`,
+      'title': `${process.env.CI_PROJECT_PATH} (${process.env.CI_ENVIRONMENT_SLUG})`,
       'title_link': process.env.CI_PROJECT_URL,
       'fields': [
         {
