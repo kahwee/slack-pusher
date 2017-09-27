@@ -27,10 +27,10 @@ function postNow (data = {}) {
   if (args.url1) {
     let deployedTo = `<${args.url1}|${args.name1}> `
     if (args.url2) {
-      deployedTo += `<${args.url2}|${args.name2}> `
+      deployedTo += `\n<${args.url2}|${args.name2}> `
     }
     if (args.url3) {
-      deployedTo += `<${args.url3}|${args.name3}> `
+      deployedTo += `\n<${args.url3}|${args.name3}> `
     }
     data.attachments[0].fields[1] = {
       'title': 'Deployed to',
