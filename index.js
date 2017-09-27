@@ -38,12 +38,8 @@ function postNow (data = {}) {
       'short': true
     })
   }
-  if (args.instructions) {
-    data.attachments[0].fields.push({
-      'title': 'Instructions',
-      'value': args.instructions,
-      'short': false
-    })
+  if (args.text) {
+    data.attachments[0].text = args.text
   }
   console.log(data)
   const stringified = JSON.stringify(data)
@@ -71,6 +67,7 @@ postNow({
       'author_icon': process.env.SLACK_AUTHOR_ICON,
       title: `${process.env.CI_PROJECT_PATH} (${process.env.CI_ENVIRONMENT_SLUG})`,
       'title_link': process.env.CI_PROJECT_URL,
+      'mrkdwn_in': ['text'],
       'fields': [
         {
           title: 'Triggered by',
