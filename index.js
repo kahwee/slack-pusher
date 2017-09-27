@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const https = require('https')
-const pkg = require('./package.json')
+const path = require('path')
+const pkg = require(path.join(process.env.CI_PROJECT_DIR, 'package.json'))
 
 const {URL} = require('url')
 const webhook = new URL(process.env.SLACK_WEBHOOK)
@@ -15,6 +16,8 @@ const requestOpts = {
   }
 }
 let [a, b, ...params] = process.argv
+console.log(process.env)
+exit()
 let args = {}
 params.forEach((param) => {
   const pos = param.indexOf('=')
@@ -43,15 +46,15 @@ postNow({
     {
       'fallback': 'Required plain-text summary of the attachment.',
       'color': '#36a64f',
-      'author_name': `${process.env.CI_PROJECT_PATH} Job ${process.env.CI_JOB_ID}`,
+      'author_name': `${process.env.CI_PROJECT_PATH} Job #${process.env.CI_JOB_ID}`,
       'author_link': `${process.env.CI_PROJECT_URL}/builds/${process.env.CI_JOB_ID}`,
       'author_icon': 'http://flickr.com/icons/bobby.jpg',
-      'title': process.env.CI_PROJECT_PATH,
+      'title': `${process.env.CI_PROJECT_PATH} (${process.env.CI_JOB_STAGE})`,
       'title_link': process.env.CI_PROJECT_URL,
       'fields': [
         {
           'title': 'Triggered by',
-          'value': `${process.env.GITLAB_USER_LOGIN} (${process.env.GITLAB_USER_NAME})`,
+          'value': `${process.env.GITLAB_USER_EMAIL}`,
           'short': false
         },
         {
